@@ -31,15 +31,19 @@ and DLL references. Maybe there is a way to use an approach like this
 
 ### Use a type lookup map with a type erased value representing the global instance
 In various posts you see this approach using say
+
     std::map<std::type_index,void*>
+
 So the type erasure is done by casting a pointer to the memory of your global instance to a void pointer.
 This project is a variant of this but using
+
     std::unordered_map<std::type,std::any>
+
 Using std::any gives us better type safety and make the code simpler.
 The constraints for the solution are
 1. The Foo header should not know what types it is being instantiated
-2. The code in other DLL that uses Foo<T> should have to do no special code, they simply can use Foo<T> as normal
-3. A lower priority, the solution should be easy to #ifdef in and out so the simple obvious code above can be used easily for tool chains that work as expexted/
+2. The code in other DLL that uses Foo\<T> should have to do no special code, they simply can use Foo\<T> as normal
+3. A lower priority, the solution should be easy to #ifdef in and out so the simple obvious code above can be used easily for tool chains that work as expecte.d
 
 In the example code the Foo type is actual called Counter.
 
