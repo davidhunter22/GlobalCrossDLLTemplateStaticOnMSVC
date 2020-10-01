@@ -3,7 +3,13 @@
 Given a template like the following
 
     template <typename T> struct Counter 
-    {     
+    {
+        T get_value( ) ...
+
+        void set_value( T t ) ...
+       
+    private:
+
         static inline T value; 
     }
 
@@ -44,6 +50,25 @@ The constraints for the solution are
 1. The Counter header should not know what types it is being instantiated
 2. The code in other DLL that uses Counter\<T> should have to do no special code, they simply can use Counter\<T> as normal
 3. A lower priority, the solution should be easy to #ifdef in and out so the simple obvious code above can be used easily for tool chains that work as expecte.d
+
+## Comments on the code
+
+#### How to set the initial value of the global instance
+One question that arises if how do you set an initial value for the global instance, meaning both the memory it consumes and it's initial value.
+The work around at present automatically create a default constructed instance of the contained type on first use. This seems reasonable as
+it's what happens if your on a tool chain that doesn't need this work around. Well almost the same as in that case the memory is presumably allocated
+at program start up rather than on first use. 
+
+#### Constraints on type T
+The work around may impose more constraints on T then a tool chain not using it. It would be good if the constraints were shown to be the same
+to avoid surprising users.
+
+#### Performance
+Obviously this is slower as every use is doing a look up based on the type_index of T. It is using an unorderd_map so at least this is a hash based lookup
+but this is probably not an appropriate work around if this lookup becomes a dominant part of run time.
+
+#### Usage
+This work around has been used in a fairly large C++ code base without problems.
 
 ## Posts concerning this topis, please add more
 
