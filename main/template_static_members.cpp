@@ -19,6 +19,7 @@ int main( int, char** )
     // This gets the value for Counter<int> in a different DLL to the one its was set in which shows they shared the same Counter<int> value
     value = get_counter_for_int_type_2( );
 
+    // This value which uses the Counter<int> from the counter_int_2 DLL should be same as the one set by the counter_int_1 DLL
     assert( value == 99 );
 
     return 0;
